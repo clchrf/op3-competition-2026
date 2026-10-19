@@ -27,8 +27,9 @@ competition_2026/
   sprint_yuAn/      sprint_canada.py + op3_ros_utils2.py (yuAn 版) + walking_config2/*.yaml (7 個)
   archery_TFira/    archery_260718_COUNTER_CLOCKWISE.py + op3_ros_utils.py (T_Fira 版)
   obstacle_jeff/    jeff_obstacle4_copy1.py + jeff_obstacle_vision_copy1.py + op3_ros_utils.py (jeff 版)
-  motion_files/     3 個 workspace 的動作檔 motion_4095.bin + page_diff.txt (每一頁的比較)
-  walking_params/   3 個 workspace 的 op3_walking_module/config/param.yaml
+  weightlift_Ray/   舉重 op3_weightlifting_v4.py + detector.py + YOLO 模型 + op3_ros_utils.py (Ray_wk 版)
+  motion_files/     4 個 workspace 的動作檔 motion_4095.bin + page_diff.txt (每一頁的比較)
+  walking_params/   4 個 workspace 的 op3_walking_module/config/param.yaml
   tools/            compare_motion_files.py (比較動作檔的小工具, python 2/3 都可以)
 ```
 
@@ -137,3 +138,22 @@ competition_2026/
 | `jeff_ws/.../jeff_obstacle4(copy2).py`、`jeff_obstacle_vision(copy2).py`、`jeff_obstacle4(test).py` | 07-20 | 避障的下一版（copy2 有 40 KB，改很多） |
 
 學長指定的是上面那 4 支，所以先只整理那 4 支。要不要也整理這些，**問學長哪一版才是比賽最後真的用的**。
+
+## 舉重（weightlift_Ray）
+
+2026-10-19 從隨身碟 `E:\Ray_wk` 補上。程式碼和原檔一模一樣（沒有改）。
+
+| 項目 | 原本位置（機器人上） | 這裡 |
+|---|---|---|
+| 舉重主程式（2026-07-20，最新） | `/home/robotis/Ray_wk/src/fira_basketball/scripts/weightlift/op3_weightlifting_v4.py` | `weightlift_Ray/op3_weightlifting_v4.py` |
+| 偵測（OpenVINO，YOLO11n-obb，找 bar_target / white_line） | 同資料夾 `detector.py` + `best_openvino_model/` | `weightlift_Ray/detector.py`, `weightlift_Ray/best_openvino_model/` |
+| 函式庫 | `scripts/op3_ros_utils.py` | `weightlift_Ray/op3_ros_utils.py` |
+| 動作檔（2026-07-18） | `Ray_wk/src/ROBOTIS-OP3/op3_action_module/data/motion_4095.bin` | `motion_files/motion_4095_Ray_wk.bin` |
+| 走路參數 | `Ray_wk/.../op3_walking_module/config/param.yaml` | `walking_params/param_Ray_wk.yaml`（和 jeff_ws 的一樣） |
+
+- 怎麼跑：看 `weightlift_Ray/data.md`。偵測程式在 PC / conda `yolo_ov`（python3 + openvino）上跑，
+  用 UDP 5005 把結果送給 `op3_weightlifting_v4.py`（機器人上 python2 + ROS）。
+- 用到的動作頁：`1` 初始、`195` 撿槓（30 cd）、`186` 舉起（30 cd）、`185` 結束。
+  **頁 185 / 186 / 195 只有 Ray_wk 的動作檔有**，其他三個 workspace 這幾頁是空的。頁 1 四個都不一樣。
+- 沒有複製：`jeff_weightlifting_canada1~9`、`jeff_weightlifting_copy25~31`、`weightlifting_fira_seoul2025.py`、
+  `weightlifting_test.py`（舊版或測試版）。**要跟學長確認 v4 是不是比賽用的那支。**
