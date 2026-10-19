@@ -28,6 +28,7 @@ competition_2026/
   archery_TFira/    archery_260718_COUNTER_CLOCKWISE.py + op3_ros_utils.py (T_Fira 版)
   obstacle_jeff/    jeff_obstacle4_copy1.py + jeff_obstacle_vision_copy1.py + op3_ros_utils.py (jeff 版)
   weightlift_Ray/   舉重 op3_weightlifting_v4.py + detector.py + YOLO 模型 + op3_ros_utils.py (Ray_wk 版)
+  base_workspace/   各 workspace 不一樣的基底檔：dxl_init_OP3.yaml、fira_basketball 的 msg/CMakeLists/package.xml/param.yaml
   motion_files/     4 個 workspace 的動作檔 motion_4095.bin + page_diff.txt (每一頁的比較)
   walking_params/   4 個 workspace 的 op3_walking_module/config/param.yaml
   tools/            compare_motion_files.py (比較動作檔的小工具, python 2/3 都可以)
@@ -157,3 +158,26 @@ competition_2026/
   **頁 185 / 186 / 195 只有 Ray_wk 的動作檔有**，其他三個 workspace 這幾頁是空的。頁 1 四個都不一樣。
 - 沒有複製：`jeff_weightlifting_canada1~9`、`jeff_weightlifting_copy25~31`、`weightlifting_fira_seoul2025.py`、
   `weightlifting_test.py`（舊版或測試版）。**要跟學長確認 v4 是不是比賽用的那支。**
+
+## 各 workspace 基底有哪裡不一樣（2026-10-19 用 diff 比過）
+
+比對方式：Ray_wk 對 yuAn_ws / T_Fira_ws / jeff_ws，比 `ROBOTIS-*`、`DynamixelSDK` 等 ROBOTIS 套件和 `fira_basketball`
+（`scripts/` 以外）。**只有下面這些檔案不一樣**，其他（OP3.robot、offset.yaml、op3_gui_demo、各模組原始碼、launch）四個都一樣。
+
+| 檔案 | yuAn_ws | T_Fira_ws | jeff_ws | Ray_wk | 這裡 |
+|---|---|---|---|---|---|
+| `op3_action_module/data/motion_4095.bin` | 不同 | 不同 | 不同 | 不同 | `motion_files/` |
+| `op3_walking_module/config/param.yaml` | 不同 | 不同 | = Ray | = jeff | `walking_params/` |
+| `op3_walking_module/config/{500,back,back2,front,stop}.yaml` + `config2/` | 只有 yuAn 有 | - | - | - | `sprint_yuAn/walking_config2/` |
+| `op3_manager/config/dxl_init_OP3.yaml` | A | A | A | B | `base_workspace/dxl_init/` |
+| `op3_ros_utils*.py`（程式 import 的函式庫） | 各自版本 | 各自版本 | 各自版本 | 各自版本 | 各程式資料夾 |
+| `fira_basketball/msg/ThreeDouble.msg` + `CMakeLists.txt`（`add_message_files`）+ `package.xml` | 有 | - | 有（= yuAn） | **沒有 msg**（CMake 沒開） | `base_workspace/fira_basketball_pkg/` |
+| `fira_basketball/config/param.yaml` | = jeff | - | = yuAn | 不同（period 600 vs 800） | `base_workspace/fira_basketball_config/` |
+
+- `dxl_init_OP3.yaml`：A = yuAn / T_Fira / jeff（三個完全一樣，夾爪是 `l_gripper` / `r_gripper`）；
+  B = Ray_wk（夾爪那 18 行不一樣，舊的 `l_grip` / `r_grip` 是註解掉的）。夾爪馬達型號不同就要換這個檔。
+- 避障（`obstacle_jeff`）要 `from fira_basketball.msg import ThreeDouble`：用 jeff 的 `fira_basketball_pkg/`，
+  `catkin_make` 之後才有這個訊息。Ray_wk 沒有這個 msg，跑不起來。
+- 走路 `param.yaml` 重點差異（yuAn / T_Fira / Ray(=jeff)）：period_time 700 / 650 / 800，
+  hip_pitch_offset 8 / 3 / 10，x_offset -0.030 / -0.008 / -0.015，foot_height 0.050 / 0.045 / 0.045。
+- 沒比的：`an_pkg`、`TT_FIRA_2024`、`Ray_wk` 的 `scripts/` 裡其他程式（只放了學長指定的那幾支）。
