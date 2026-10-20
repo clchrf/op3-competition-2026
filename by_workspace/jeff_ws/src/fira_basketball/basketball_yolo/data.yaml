@@ -1,0 +1,12 @@
+# YOLO 資料集設定（ball / hoop 兩類）
+# path 是資料集根目錄；train/val 是相對於 path 的影像資料夾
+# labels 會自動對應到同層的 labels/ 資料夾（YOLO 格式）
+path: ./dataset
+train: images/train
+val: images/val
+
+names:
+  0: ball
+  1: hoop
+# 之後若想把籃板獨立成一類，加上：
+#   2: backboard

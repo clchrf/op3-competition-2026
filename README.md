@@ -28,6 +28,7 @@ competition_2026/
   archery_TFira/    archery_260718_COUNTER_CLOCKWISE.py + op3_ros_utils.py (T_Fira 版)
   obstacle_jeff/    jeff_obstacle4_copy1.py + jeff_obstacle_vision_copy1.py + op3_ros_utils.py (jeff 版)
   weightlift_Ray/   舉重 op3_weightlifting_v4.py + detector.py + YOLO 模型 + op3_ros_utils.py (Ray_wk 版)
+  by_workspace/     四個 workspace 的程式碼和設定檔全部（yuAn_ws / T_Fira_ws / jeff_ws / Ray_wk，路徑和隨身碟一樣）
   other_versions/   同一批程式的其他版本（下一版、舊版、另一套），原檔不改
   base_workspace/   各 workspace 不一樣的基底檔：dxl_init_OP3.yaml、fira_basketball 的 msg/CMakeLists/package.xml/param.yaml
   motion_files/     4 個 workspace 的動作檔 motion_4095.bin + page_diff.txt (每一頁的比較)
@@ -202,3 +203,14 @@ competition_2026/
   hip_pitch_offset 8 / 3 / 10，x_offset -0.030 / -0.008 / -0.015，foot_height 0.050 / 0.045 / 0.045。
 - `an_pkg` 只有 yuAn_ws 有，`TT_FIRA_2024` 只有 T_Fira_ws 有（它的 `config/` 和 jeff_ws 的 `fira_basketball/config/` 一樣）。
   `scripts/` 裡的其他程式沒有比，只放了指定的那幾支。
+
+## 四個 workspace 的完整程式碼（by_workspace/）
+
+從隨身碟 `E:\yuAn_ws`、`E:\T_Fira_ws`、`E:\jeff_ws`、`E:\Ray_wk` 複製，路徑結構和原本一樣（`by_workspace/<workspace>/src/<package>/...`），檔案內容沒有改。
+
+- **有放**：`src/` 底下學長自己的套件（`an_pkg`、`TT_FIRA_2024`、`fira_basketball`、`benson_pkg`、`fifi_main`、`fira_berc`、`kinematics`、`marathon_*`、`sprint_*`、`motion_bridge`、`robot_*`、`cv_camera`、`camera_calibration`）的
+  `.py`、`.yaml`、`.launch`、`.msg`、`.xml`、`CMakeLists.txt`、`.cpp`、`.h`、`.md`、`.txt`、`.sh`、`.json`，和動作檔 `motion_*.bin`（單檔 3 MB 以內）。
+- **沒放**：影片（`.avi`、`.mp4`）、聲音（`.mp3`）、圖片（`.jpg`、`.png`，包括 Ray_wk 的 `dataset/`）、模型（`.pt`、`best_openvino_model*/` 裡的 `.bin`；
+  舉重用的那個模型在 `weightlift_Ray/best_openvino_model/`）、`build/`、`devel/`、`.pyc`、`.swp`。
+- **也沒放**：`ROBOTIS-*`、`DynamixelSDK`、`robotis_framework_common`（ROBOTIS 官方套件）。這些裡面四個 workspace 不一樣的檔案，
+  已經挑出來放在 `motion_files/`、`walking_params/`、`base_workspace/`（見上面「各 workspace 基底有哪裡不一樣」）。
