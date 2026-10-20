@@ -17,7 +17,7 @@
 
 - 避障用的是 `jeff_obstacle4 (copy 1).py` + `jeff_obstacle_vision (copy 1).py` 這一組：主程式 publish
   `obstacle_head_angle`、subscribe `obstacle_vision_data`（`ThreeDouble`），影像程式剛好相反，topic 對得上。
-  jeff_ws 裡另一支 `jeff_obstacle.py`（159 行）是單一程式版：自己 subscribe 相機和 IMU，沒有這兩個 topic，所以不是這一組，沒有複製。
+  jeff_ws 裡另一支 `jeff_obstacle.py`（159 行）是單一程式版：自己 subscribe 相機和 IMU，沒有這兩個 topic，所以不是這一組（檔案在 `other_versions/obstacle_jeff/`）。
 - 檔名裡的空白和括號拿掉了（`rosrun` 不喜歡空白）。
 
 每個資料夾都放了**那支程式需要的東西**（它 import 的那個版本的函式庫、它用的走路參數檔）。
@@ -28,6 +28,7 @@ competition_2026/
   archery_TFira/    archery_260718_COUNTER_CLOCKWISE.py + op3_ros_utils.py (T_Fira 版)
   obstacle_jeff/    jeff_obstacle4_copy1.py + jeff_obstacle_vision_copy1.py + op3_ros_utils.py (jeff 版)
   weightlift_Ray/   舉重 op3_weightlifting_v4.py + detector.py + YOLO 模型 + op3_ros_utils.py (Ray_wk 版)
+  other_versions/   同一批程式的其他版本（下一版、舊版、另一套），原檔不改
   base_workspace/   各 workspace 不一樣的基底檔：dxl_init_OP3.yaml、fira_basketball 的 msg/CMakeLists/package.xml/param.yaml
   motion_files/     4 個 workspace 的動作檔 motion_4095.bin + page_diff.txt (每一頁的比較)
   walking_params/   4 個 workspace 的 op3_walking_module/config/param.yaml
@@ -131,10 +132,10 @@ competition_2026/
 - **避障**：`DOOR_LOCATE` 用到 `target_slop`，如果一開始讀門都失敗就會 `NameError`；影像程式會開視窗，要螢幕。
 - **Sprint**：開始時要**站著不動**（前 120 筆 IMU 算陀螺儀偏差）；`WALK_BACKWARDS` 會一直退，要按 MODE 停。
 
-## 隨身碟上還有、但沒複製的
+## 其他版本（other_versions/）
 
-這 4 支（sprint_canada、archery_260718_COUNTER_CLOCKWISE、jeff_obstacle4 / jeff_obstacle_vision 的 copy 1）是指定的，只整理這些。
-隨身碟上還有下面這些，內容差異是用 diff 看過的：
+指定的 4 支（sprint_canada、archery_260718_COUNTER_CLOCKWISE、jeff_obstacle4 / jeff_obstacle_vision 的 copy 1）放在上面的資料夾，
+隨身碟上同一批的其他版本放在 `other_versions/`（和隨身碟原檔一模一樣，沒有改）。內容差異是用 diff 看過的：
 
 | 檔案 | 修改時間 | 和放進來的那份差在哪 |
 |---|---|---|
@@ -144,7 +145,7 @@ competition_2026/
 | `T_Fira_ws/.../Archery_canada_clockwise.py`、`Archery_canada_counter_clockwise.py` | 07-17 | 另一套射箭（約 18 KB / 20 KB，比 260718 版的 11 KB 大） |
 | `T_Fira_ws/.../archery_260425_CLOCKWISE.py`、`..._COUNTER_CLOCKWISE.py` | 07-18 | 同系列檔名的射箭程式（順時針 / 逆時針） |
 
-要用這些，從隨身碟的原路徑拿。
+`other_versions/` 裡舉重的舊版見下面「舉重」那節。
 
 ## 舉重（weightlift_Ray）
 
@@ -171,7 +172,7 @@ competition_2026/
   **頁 185 / 186 / 195 / 196 只有 Ray_wk 的動作檔有**，其他三個 workspace 這幾頁是空的。頁 1 四個都不一樣。
 - 為什麼是 v4：`data.md` 的啟動指令就是 `op3_weightlifting_v4.py`；它也是 `weightlift/` 資料夾裡最後修改的檔案（07-20 19:21），
   動作檔 `motion_4095.bin` 修改時間是 07-18 08:23。
-- 沒有複製的舊版：`jeff_weightlifting_canada1~7`（05-22～05-31，用黃色 HSV 找槓，動作頁也是 1 / 195 / 186 / 185）、
+- 舊版（放在 `other_versions/weightlift_Ray/`）：`jeff_weightlifting_canada1~7`（05-22～05-31，用黃色 HSV 找槓，動作頁也是 1 / 195 / 186 / 185）、
   `weightlift/weightlifting_test.py`（07-01，頁號一樣，也用 socket 收偵測）、`jeff_weightlifting_copy25~31`、
   `weightlifting_fira_seoul2025.py`（動作頁 1 / 178 / 192 / 191）。
 
